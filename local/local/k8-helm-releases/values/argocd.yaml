@@ -1,0 +1,13 @@
+configs:
+  cm: 
+    dex.config: |
+      connectors:
+        - type: github
+        id: github
+        name: GitHub
+        config:
+          clientID: Ov23liu4VozHkV4EBWS1
+          clientSecret: $dex.github.clientSecret
+          redirectURI: "https://smee.io/BVDO9Mz1TnvkQFjI/auth/callback"
+          orgs:
+            - name: mostmm
