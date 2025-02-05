@@ -1,5 +1,5 @@
 locals {
-  root_dir       = dirname(find_in_parent_folders())
+  root_dir       = dirname(find_in_parent_folders("root.hcl"))
   modules_uri    = "git::https://github.com/mostmm/terraform-base-modules.git"
   component_path = path_relative_to_include()
 
