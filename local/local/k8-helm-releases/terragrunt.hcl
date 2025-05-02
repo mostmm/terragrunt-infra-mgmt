@@ -9,7 +9,7 @@ include "stack_common" {
 }
 
 terraform {
-  source = "${include.root.locals.modules_uri}//${include.stack_common.locals.module_path}?ref=v0.0.3"
+  source = "${include.root.locals.modules_uri}//${include.stack_common.locals.module_path}?ref=v0.0.4"
 
   # To use local modules:
   # source = "${get_repo_root()}/../terraform-base-modules/k8/helm-releases"
@@ -25,14 +25,16 @@ inputs = {
       repository = "https://prometheus-community.github.io/helm-charts"
       chart      = "kube-prometheus-stack"
       namespace  = "monitoring"
-      # values     = ["${local.values_path}/kube-prometheus-stack.yaml"]
+      values     = ["${local.values_path}/kube-prometheus-stack.yaml"]
     },
     "argocd" = {
       repository = "https://argoproj.github.io/argo-helm"
       chart      = "argo-cd"
-      version    = "5.52.2"
       namespace  = "argocd"
       values     = ["${local.values_path}/argocd.yaml"]
+      sets = {
+        "configs.secret.extra.dex\\.github\\.clientSecret" = get_env("DEX_GITHUB_CLIENT_SECRET")
+      }
     }
   }
 }

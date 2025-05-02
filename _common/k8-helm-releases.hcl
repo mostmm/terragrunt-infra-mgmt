@@ -3,12 +3,7 @@ locals {
   ref         = "v0.0.3"
 }
 
-inputs = {
-  helm_provider = {
-    config_path    = "~/.kube/config"
-    config_context = "k8lab"
-  }
-}
+inputs = {}
 
 generate "terraform" {
   path      = "terraform.tf"
@@ -20,6 +15,19 @@ terraform {
       source  = "hashicorp/helm"
       version = "2.16.1"
     }
+  }
+}
+EOF
+}
+
+generate "helm_provider" {
+  path      = "helm-provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<EOF
+provider "helm" {
+  kubernetes {
+    config_path    = "~/.kube/config"
+    config_context = "local"
   }
 }
 EOF
