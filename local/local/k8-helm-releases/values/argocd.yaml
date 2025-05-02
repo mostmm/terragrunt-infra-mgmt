@@ -1,13 +1,21 @@
+nameOverride: argocd
+namespaceOverride: argocd
+
 configs:
-  cm: 
+  cm:
+    exec.enable: true
+    url: "https://localhost:8080"
     dex.config: |
       connectors:
         - type: github
-        id: github
-        name: GitHub
-        config:
-          clientID: Ov23liu4VozHkV4EBWS1
-          clientSecret: $dex.github.clientSecret
-          redirectURI: "https://smee.io/BVDO9Mz1TnvkQFjI/auth/callback"
-          orgs:
-            - name: mostmm
+          id: github
+          name: github
+          config:
+            clientID: Ov23li7fioAkAq9g8Pya
+            clientSecret: $argocd-secret:dex.github.clientSecret
+
+  rbac:
+    policy.csv: |
+      g, mostmm, role:admin
+
+    policy.default: role:readonly
