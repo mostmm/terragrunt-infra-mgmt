@@ -4,7 +4,8 @@ include "root" {
 }
 
 include "stack_common" {
-  path   = "${get_repo_root()}/_common/${basename(get_terragrunt_dir())}.hcl"
+  # path   = "${get_repo_root()}/_common/${basename(get_terragrunt_dir())}.hcl"
+  path   = "${get_repo_root()}/_common/helm-releases.hcl"
   expose = true
 }
 
@@ -24,15 +25,17 @@ inputs = {
     "prometheus-stack" = {
       repository = "https://prometheus-community.github.io/helm-charts"
       chart      = "kube-prometheus-stack"
-      namespace  = "monitoring"
-      values     = ["${local.values_path}/kube-prometheus-stack.yaml"]
+      # version    = "71.2.0"
+      namespace = "monitoring"
+      values    = ["${local.values_path}/kube-prometheus-stack.yaml"]
     },
     "argocd" = {
       repository = "https://argoproj.github.io/argo-helm"
       chart      = "argo-cd"
-      namespace  = "argocd"
-      values     = ["${local.values_path}/argocd.yaml"]
-      sets = {
+      # version    = "7.9.0"
+      namespace = "argocd"
+      values    = ["${local.values_path}/argocd.yaml"]
+      set_sensitive = {
         "configs.secret.extra.dex\\.github\\.clientSecret" = get_env("DEX_GITHUB_CLIENT_SECRET")
       }
     }
