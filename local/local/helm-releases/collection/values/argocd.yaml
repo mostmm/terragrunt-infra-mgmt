@@ -19,3 +19,9 @@ configs:
       g, mostmm, role:admin
 
     policy.default: role:readonly
+
+  credentialTemplates:
+    github-app-creds:
+      url: https://github.com/mostmm
+      githubAppID: "1044581"
+      githubAppInstallationID: "65746252"

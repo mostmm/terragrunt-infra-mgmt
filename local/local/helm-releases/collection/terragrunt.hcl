@@ -36,7 +36,8 @@ inputs = {
       namespace = "argocd"
       values    = ["${local.values_path}/argocd.yaml"]
       set_sensitive = {
-        "configs.secret.extra.dex\\.github\\.clientSecret" = get_env("DEX_GITHUB_CLIENT_SECRET")
+        "configs.secret.extra.dex\\.github\\.clientSecret"                 = get_env("DEX_GITHUB_CLIENT_SECRET")
+        "configs.credentialTemplates.github-app-creds.githubAppPrivateKey" = get_env("GITHUB_APP_PRIVATE_KEY")
       }
     }
   }
