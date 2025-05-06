@@ -16,9 +16,8 @@ configs:
 
   rbac:
     policy.csv: |
-      g, mostmm, role:admin
-
-    policy.default: role:readonly
+      g, mostmm.mahmoud@gmail.com, role:admin
+    scopes: '[groups, email]'
 
   credentialTemplates:
     github-app-creds:
