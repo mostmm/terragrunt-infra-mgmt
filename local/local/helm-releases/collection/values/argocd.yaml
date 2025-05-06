@@ -16,6 +16,11 @@ configs:
 
   rbac:
     policy.csv: |
-      g, mostmm, role:admin
+      g, mostmm.mahmoud@gmail.com, role:admin
+    scopes: '[groups, email]'
 
-    policy.default: role:readonly
+  credentialTemplates:
+    github-app-creds:
+      url: https://github.com/mostmm
+      githubAppID: "1044581"
+      githubAppInstallationID: "65746252"

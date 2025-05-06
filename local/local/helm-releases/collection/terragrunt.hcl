@@ -13,7 +13,7 @@ terraform {
   source = "${include.root.locals.modules_uri}//${include.stack_common.locals.module_path}?ref=v0.0.4"
 
   # To use local modules:
-  # source = "${get_repo_root()}/../terraform-base-modules/k8/helm-releases"
+  # source = "${get_repo_root()}/../terraform-base-modules/helm-releases"
 }
 
 locals {
@@ -22,7 +22,7 @@ locals {
 
 inputs = {
   releases = {
-    "prometheus-stack" = {
+    "prometheus" = {
       repository = "https://prometheus-community.github.io/helm-charts"
       chart      = "kube-prometheus-stack"
       # version    = "71.2.0"
@@ -36,7 +36,8 @@ inputs = {
       namespace = "argocd"
       values    = ["${local.values_path}/argocd.yaml"]
       set_sensitive = {
-        "configs.secret.extra.dex\\.github\\.clientSecret" = get_env("DEX_GITHUB_CLIENT_SECRET")
+        "configs.secret.extra.dex\\.github\\.clientSecret"                 = get_env("DEX_GITHUB_CLIENT_SECRET")
+        "configs.credentialTemplates.github-app-creds.githubAppPrivateKey" = get_env("GITHUB_APP_PRIVATE_KEY")
       }
     }
   }
