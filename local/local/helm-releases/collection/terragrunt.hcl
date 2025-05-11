@@ -25,20 +25,25 @@ inputs = {
     "prometheus" = {
       repository = "https://prometheus-community.github.io/helm-charts"
       chart      = "kube-prometheus-stack"
-      # version    = "71.2.0"
-      namespace = "monitoring"
-      values    = ["${local.values_path}/kube-prometheus-stack.yaml"]
+      namespace  = "monitoring"
+      values     = ["${local.values_path}/kube-prometheus-stack.yaml"]
     },
     "argocd" = {
       repository = "https://argoproj.github.io/argo-helm"
       chart      = "argo-cd"
-      # version    = "7.9.0"
-      namespace = "argocd"
-      values    = ["${local.values_path}/argocd.yaml"]
+      namespace  = "argocd"
+      values     = ["${local.values_path}/argocd.yaml"]
       set_sensitive = {
         "configs.secret.extra.dex\\.github\\.clientSecret"                 = get_env("DEX_GITHUB_CLIENT_SECRET")
         "configs.credentialTemplates.github-app-creds.githubAppPrivateKey" = get_env("GITHUB_APP_PRIVATE_KEY")
       }
+    },
+    "keycloak" = {
+      repository = "oci://registry-1.docker.io/bitnamicharts"
+      chart      = "keycloak"
+      version    = "24.4.13"
+      namespace  = "keycloak"
+      values     = ["${local.values_path}/keycloak.yaml"]
     }
   }
 }

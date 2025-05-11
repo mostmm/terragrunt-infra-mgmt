@@ -1,2 +1,29 @@
 grafana:
   adminPassword: "admin"
+  assertNoLeakedSecrets: false
+  grafana.ini:
+    server:
+      # Define how Grafana is accessed externally
+      # You may need to adjust this based on your ingress or NodePort setup
+      root_url: "http://localhost:3000/"
+    auth:
+      disable_login_form: false
+    auth.generic_oauth:
+      verbose_logging: true
+      enabled: true
+      name: Keycloak-OAuth
+      allow_sign_up: true
+      client_id: grafana
+      client_secret: 1G6lcW7IXp0IIarwXp1Hgv0lk5ZnrdbO
+      scopes: openid email profile roles
+      # auth_url must be accessible from the user's browser
+      auth_url: http://localhost:30080/realms/grafana/protocol/openid-connect/auth
+      # token_url and api_url are server-to-server communications
+      token_url: http://keycloak.keycloak.svc.cluster.local:80/realms/grafana/protocol/openid-connect/token
+      api_url: http://keycloak.keycloak.svc.cluster.local:80/realms/grafana/protocol/openid-connect/userinfo
+      logout_url: https://localhost:30080/realms/grafana/protocol/openid-connect/logout?redirect_uri=https%3A%2F%2F<your-grafana-host>
+      allow_assign_grafana_admin: true
+      role_attribute_path: "contains(realm_access.roles[*], 'admin') && 'Admin' || contains(realm_access.roles[*], 'editor') && 'Editor' || 'Viewer'"
+      login_attribute_path: preferred_username
+      name_attribute_path: name
+      email_attribute_path: email
